@@ -10,7 +10,7 @@ def show_image(img):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-img = cv2.imread('img/image3.jpg', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('img/image4.jpg', cv2.IMREAD_GRAYSCALE)
 show_image(img)
 
 #gurultu azaltma
@@ -77,7 +77,5 @@ corners = findCorners(processed)
 display_points(processed, corners)
 
 #sudoku ortalama
-processed = pre_process_image(img)
-corners = findCorners(processed)
 cropped = crop_and_warp(img, corners)
 show_image(cropped)
