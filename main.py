@@ -52,7 +52,12 @@ def distance_between(p1, p2):
 	a = p2[0] - p1[0]
 	b = p2[1] - p1[1]
 	return np.sqrt((a ** 2) + (b ** 2))
-
+def display_rects(in_img, rects, colour=255):
+    img = in_img.copy()
+    for rect in rects:
+        cv2.rectangle(img, tuple(int(x) for x in rect[0]), tuple(int(x) for x in rect[1]), colour)
+    show_image(img)
+    return img
 
 def crop_and_warp(img, crop_rect):
     top_left, top_right, bottom_right, bottom_left = crop_rect[0], crop_rect[1], crop_rect[2], crop_rect[3]
@@ -67,6 +72,17 @@ def crop_and_warp(img, crop_rect):
     m = cv2.getPerspectiveTransform(src, dst)
     return cv2.warpPerspective(img, m, (int(side), int(side)))
 
+def infer_grid(img):
+	"""Infers 81 cell grid from a square image."""
+	squares = []
+	side = img.shape[:1]
+	side = side[0] / 9
+	for i in range(9):
+		for j in range(9):
+			p1 = (i * side, j * side)  # Top left corner of a bounding box
+			p2 = ((i + 1) * side, (j + 1) * side)  # Bottom right corner of bounding box
+			squares.append((p1, p2))
+	return squares
 processed = pre_process_image(img)
 
 show_image(processed)
@@ -79,3 +95,6 @@ display_points(processed, corners)
 #sudoku ortalama
 cropped = crop_and_warp(img, corners)
 show_image(cropped)
+#sudoku kare cizme
+squares = infer_grid(cropped)
+display_rects(cropped, squares)
