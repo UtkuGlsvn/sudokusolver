@@ -1,18 +1,27 @@
 from __future__ import print_function
 import cv2
+import argparse
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot as plt
 from pytesseract import image_to_string,image_to_boxes
 import operator
-
+from keras.datasets import mnist
+import matplotlib.pyplot as plt
+import numpy as np
+from keras.preprocessing import image
+import tensorflow as tf
+from skimage.segmentation import clear_border
+from keras.models import load_model
 #show image
 def show_image(img,title):
-    cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+    #cv2.namedWindow(title, cv2.WINDOW_NORMAL)
     cv2.imshow(title, img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+ap = argparse.ArgumentParser()
+args = vars(ap.parse_args())
 img = cv2.imread('img/image4.jpg', cv2.IMREAD_GRAYSCALE)
 show_image(img,"title")
 
@@ -231,31 +240,40 @@ def scale_and_centre(img, size, margin=0, background=0):
 	img = cv2.copyMakeBorder(img, t_pad, b_pad, l_pad, r_pad, cv2.BORDER_CONSTANT, None, background)
 	return cv2.resize(img, (size, size))
 
+# Importing the required Keras modules containing model and layers
+# Creating a Sequential Model and adding the layers
+
 
 def getEveryDigits(img,squares):
-	img2=cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    labels = []
+    centers = []
+    model = load_model('models/mnist_keras_cnn_model.h5')
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+    img2=img.copy()
+    show_image(img2,"asdgsa")
+    height, width = img.shape[:2]
+    img2 = Image.fromarray(img2)
+    for i in range(81):
+        x1=squares[i][0][0]
+        x2=squares[i][1][0]
+        y1=squares[i][0][1]
+        y2=squares[i][1][1]
+        window=img[x1:x2, y1:y2]
+        digit = cv2.resize(window,(28,28))
+        digit = clear_border(digit)
+        show_image(digit,"digit")        #burasina bak
+        numPixels = cv2.countNonZero(digit)
+        if numPixels<100:
+            label=0
+        else:
+            label = model.predict_classes([digit.reshape(1,28,28,1)])[0]
+            print(label)
+        labels.append(label)
+    print(labels)
+#        show_image(img2,"ada")
+    #
 
-	show_image(img2,"asdgsa")
-	img2 = Image.fromarray(img2)
-	for i in range(81):
-		x1=squares[i][0][0]
-		x2=squares[i][1][0]
-		y1=squares[i][0][1]
-		y2=squares[i][1][1]
-		img2=img[x1:x2, y1:y2]
-		#show_image(img2,"test")
-		#Digits dataset /usr/share/tesseract icersine ya da lang kismini sil
-		string=image_to_string(img2,lang="digits",config="--psm 10 ")
-		if(string==""):
-			string="0"
-		if(i%9==0):
-			print()
-		print(string+" ",end="") #--eom 3 -c tessedit_char_whitelist=123456789"
-		
 
-
-
-#####
 
 processed = pre_process_image(img)
 
@@ -267,7 +285,7 @@ corners = findCorners(processed)
 #display_points(processed, corners)
 
 #sudoku ortalama
-cropped = crop_and_warp(img, corners)
+cropped = crop_and_warp(processed, corners)
 #show_image(cropped,"crop_and_warp")
 #sudoku kare cizme
 squares = infer_grid(cropped)
