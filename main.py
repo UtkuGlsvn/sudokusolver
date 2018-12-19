@@ -1,9 +1,9 @@
+from __future__ import print_function
 import cv2
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot as plt
-
-from pytesseract import image_to_string
+from pytesseract import image_to_string,image_to_boxes
 import operator
 
 #show image
@@ -233,17 +233,25 @@ def scale_and_centre(img, size, margin=0, background=0):
 
 
 def getEveryDigits(img,squares):
-	img2 = Image.fromarray(img)
+	img2=cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+	show_image(img2,"asdgsa")
+	img2 = Image.fromarray(img2)
 	for i in range(81):
-		tpl=()
 		x1=squares[i][0][0]
 		x2=squares[i][1][0]
 		y1=squares[i][0][1]
 		y2=squares[i][1][1]
 		img2=img[x1:x2, y1:y2]
 		#show_image(img2,"test")
-		stra=image_to_string(img2)
-		print(stra	)	
+		#Digits dataset /usr/share/tesseract icersine ya da lang kismini sil
+		string=image_to_string(img2,lang="digits",config="--psm 10 ")
+		if(string==""):
+			string="0"
+		if(i%9==0):
+			print()
+		print(string+" ",end="") #--eom 3 -c tessedit_char_whitelist=123456789"
+		
 
 
 
