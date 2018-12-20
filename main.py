@@ -28,7 +28,7 @@ show_image(img,"title")
 #gurultu azaltma
 def pre_process_image(img, skip_dilate=False):
     proc = cv2.GaussianBlur(img.copy(), (9, 9),0)
-    proc = cv2.adaptiveThreshold(proc, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    proc = cv2.adaptiveThreshold(proc, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 5)
     proc = cv2.bitwise_not(proc, proc)
     if not skip_dilate:
       kernel = np.array([[0., 1., 0.], [1., 1., 1.], [0., 1., 0.]],np.uint8)
@@ -261,20 +261,25 @@ def getEveryDigits(img,squares):
         window=img[x1:x2, y1:y2]
         digit = cv2.resize(window,(28,28))
         digit = clear_border(digit)
-        show_image(digit,"digit")        #burasina bak
+        #show_image(digit,"digit")        #burasina bak
         numPixels = cv2.countNonZero(digit)
-        if numPixels<100:
+        if numPixels<70:
             label=0
         else:
             label = model.predict_classes([digit.reshape(1,28,28,1)])[0]
-            print(label)
+            #print(label)
         labels.append(label)
-    print(labels)
+    matrix_convert(labels)
 #        show_image(img2,"ada")
     #
 
-
-
+def matrix_convert(label):
+    a=0
+    c=[]
+    for i in range(0,9):
+        c.append(label[a:a+9])
+        a=a+9
+    print(c)
 processed = pre_process_image(img)
 
 #show_image(processed,"pre_process_image")
