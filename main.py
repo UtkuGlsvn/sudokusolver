@@ -263,7 +263,7 @@ def getEveryDigits(img,squares):
         digit = clear_border(digit)
         #show_image(digit,"digit")        #burasina bak
         numPixels = cv2.countNonZero(digit)
-        if numPixels<70:
+        if numPixels<100:
             label=0
         else:
             label = model.predict_classes([digit.reshape(1,28,28,1)])[0]
@@ -279,7 +279,8 @@ def matrix_convert(label):
     for i in range(0,9):
         c.append(label[a:a+9])
         a=a+9
-    print(c)
+    for i in range(0,9):
+        print(c[i])
 processed = pre_process_image(img)
 
 #show_image(processed,"pre_process_image")
