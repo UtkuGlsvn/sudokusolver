@@ -271,7 +271,7 @@ def getEveryDigits(img,squares):
         digit = clear_border(digit)
         #show_image(digit,"digit")        #burasina bak
         numPixels = cv2.countNonZero(digit)
-        if numPixels<100:
+        if numPixels<70:
             label=0
         else:
             label = model.predict_classes([digit.reshape(1,28,28,1)])[0]
@@ -287,8 +287,10 @@ def matrix_convert(label):
   for i in range(0,9):
         matrix.append(label[a:a+9])
         a=a+9
+  print("original Sudoku")
   for i in range(0,9):
         print(matrix[i])
+  print("---------------------------------------")
   solveGrid(matrix)
 #####
 def solveGrid(grid):
@@ -329,7 +331,9 @@ def solveGrid(grid):
             if not value in (square[0] + square[1] + square[2]):
               grid[row][col]=value
               if checkGrid(grid):
-                print(grid)
+                print("Sudoku solver")
+                for i in range(0,9):
+                      print(grid[i])
                 print("Complete and Checked")
                 return True
               else:
