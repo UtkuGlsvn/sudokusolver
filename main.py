@@ -3,16 +3,14 @@ import cv2
 import argparse
 import numpy as np
 from PIL import Image
-from matplotlib import pyplot as plt
-from pytesseract import image_to_string,image_to_boxes
 import operator
-from keras.datasets import mnist
-import matplotlib.pyplot as plt
+import copy
 import numpy as np
 from keras.preprocessing import image
 import tensorflow as tf
 from skimage.segmentation import clear_border
 from keras.models import load_model
+from load import *
 #show image
 def show_image(img,title):
     #cv2.namedWindow(title, cv2.WINDOW_NORMAL)
@@ -255,8 +253,8 @@ def checkGrid(grid):
 def getEveryDigits(img,squares):
     labels = []
     centers = []
-    model = load_model('models/mnist_keras_cnn_model.h5')
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+    model = 	load_model('models/mnist_keras_cnn_model.h5')
+    #(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
     img2=img.copy()
     show_image(img2,"asdgsa")
     height, width = img.shape[:2]
@@ -267,17 +265,25 @@ def getEveryDigits(img,squares):
         y1=squares[i][0][1]
         y2=squares[i][1][1]
         window=img[x1:x2, y1:y2]
+
         digit = cv2.resize(window,(28,28))
         digit = clear_border(digit)
+       # digit = clear_border(digit)
+        #digit = median(digit, disk(2))
+        #digit = gaussian(digit, sigma=0.09) 
         #show_image(digit,"digit")        #burasina bak
         numPixels = cv2.countNonZero(digit)
-        if numPixels<70:
+        if numPixels<80:
             label=0
         else:
-            label = model.predict_classes([digit.reshape(1,28,28,1)])[0]
+            label2 = model.predict_classes([digit.reshape(1,28,28,1)])
+            #print (str(numPixels) + " ** " + str(label2[0]))
+            label=label2[0] 
+            #if numPixels >= 152 and numPixels <= 155:
+            #	label=1
             #print(label)
         labels.append(label)
-    matrix_convert(labels)
+    return matrix_convert(labels)
 #        show_image(img2,"ada")
     #
 
@@ -291,7 +297,7 @@ def matrix_convert(label):
   for i in range(0,9):
         print(matrix[i])
   print("---------------------------------------")
-  solveGrid(matrix)
+  return matrix
 #####
 def solveGrid(grid):
   #Find next empty cell
@@ -335,14 +341,32 @@ def solveGrid(grid):
                 for i in range(0,9):
                       print(grid[i])
                 print("Complete and Checked")
-                return True
+                return grid
               else:
                   if solveGrid(grid):
-                    return True
+                    return grid
       break
   grid[row][col]=0
 
+def writeImg(solved,old,img,squares):
+  font                   = cv2.FONT_HERSHEY_SIMPLEX
+  bottomLeftCornerOfText = (10,500)
+  fontScale              = 3
+  fontColor              = (255,255,255)
+  lineType               = 3
+  print(old)
+  for i in range(81):
+    x1=squares[i][0][0]
+    x2=squares[i][1][0]
+    y1=squares[i][0][1]
+    y2=squares[i][1][1]
+    window=img[x1:x2, y1:y2]
+    if old[i/9][i%9]==0:
+    	cv2.putText(img,str(solved[i/9][i%9]),(x1,y2),font,fontScale,fontColor,lineType)
+  cv2.imshow("test",img)
+  cv2.waitKey(0)
 #####
+
 #show_image(processed,"pre_process_image")
 processed = pre_process_image(img)
 
@@ -353,9 +377,10 @@ corners = findCorners(processed)
 
 #sudoku ortalama
 cropped = crop_and_warp(processed, corners)
-#show_image(cropped,"crop_and_warp")
 #sudoku kare cizme
 squares = infer_grid(cropped)
-#display_rects(cropped, squares)
+old= getEveryDigits(cropped,squares)
+solved = solveGrid(copy.deepcopy(old))
+writeImg(solved,old,cropped,squares)
 
-getEveryDigits(cropped,squares)
+
