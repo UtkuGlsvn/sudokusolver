@@ -115,7 +115,7 @@ def getEveryDigits(img,squares):
         digit = clear_border(digit)
 
         numPixels = cv2.countNonZero(digit)
-        if numPixels<80:
+        if numPixels<70:
             label=0
         else:
             label2 = model.predict_classes([digit.reshape(1,28,28,1)])
