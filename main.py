@@ -14,7 +14,7 @@ def show_image(img,title):
     cv2.namedWindow(title, cv2.WINDOW_NORMAL)
     cv2.resizeWindow(title, 450,450)
     cv2.imshow(title, img)
-    cv2.waitKey(0)
+    cv2.waitKey(500)
     cv2.destroyAllWindows()
 
 ap = argparse.ArgumentParser()
@@ -203,11 +203,11 @@ def writeImg(solved,old,img,squares):
     y2=squares[i][1][1]
     window=img[y1:y2,x1:x2]
     if old[i/9][i%9]==0:
-        show_image(np.array(img2),"RESULT")
         k=i/9
         k=k+1
         tp=(y1,(k*84))
         cv2.putText(img,str(solved[i/9][i%9]),tp,font,fontScale,fontColor,lineType)
+        show_image(np.array(img2),"RESULT")
   cv2.waitKey(0)
 
 
