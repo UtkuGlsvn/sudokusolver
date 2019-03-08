@@ -9,6 +9,7 @@ from keras.preprocessing import image
 import tensorflow as tf
 from skimage.segmentation import clear_border
 from keras.models import load_model
+
 #Show Image
 def show_image(img,title):
     cv2.namedWindow(title, cv2.WINDOW_NORMAL)
@@ -211,14 +212,15 @@ def writeImg(solved,old,img,squares):
   cv2.waitKey(0)
 
 
-processed = pre_process_image(img)
-corners = findCorners(processed)
-display_points(processed, corners)
+if __name__== "__main__":
+  processed = pre_process_image(img)
+  corners = findCorners(processed)
+  display_points(processed, corners)
 
-cropped = crop_and_warp(processed, corners)
-squares = infer_grid(cropped)
+  cropped = crop_and_warp(processed, corners)
+  squares = infer_grid(cropped)
 
-old= getEveryDigits(cropped,squares)
-solved = solveGrid(copy.deepcopy(old))
+  old= getEveryDigits(cropped,squares)
+  solved = solveGrid(copy.deepcopy(old))
 
-writeImg(solved,old,cropped,squares)
+  writeImg(solved,old,cropped,squares)
