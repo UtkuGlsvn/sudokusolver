@@ -6,9 +6,9 @@ Clone the project and run the project->python main.py
 
 
 ## Required Libraries
-..*opencv
-..*numpy
-..*tensorflow
+..* opencv
+..* numpy
+..* tensorflow
 
 
 ## project contributors
@@ -16,4 +16,4 @@ Clone the project and run the project->python main.py
 
 
 ## Resource
-[resource](https://medium.com/@neshpatel "resource")
+[resource](https://medium.com/@neshpatel "resource1")
