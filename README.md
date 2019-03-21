@@ -6,9 +6,11 @@ Clone the project and run the project->python main.py
 
 
 ## Required Libraries
-⋅⋅* opencv
-⋅⋅* numpy
-⋅⋅* tensorflow
+* opencv
+
+* numpy
+
+* tensorflow
 
 
 ## project contributors
