@@ -20,7 +20,7 @@ Clone the project and run the project->python main.py
 
 ## Dataset
 
-*Mnist
+* Mnist
 
 ## project contributors
 [Fahri Yardımcı](https://github.com/ffahri)
