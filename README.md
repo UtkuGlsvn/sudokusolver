@@ -1,30 +1,30 @@
-# sudokusolver
+# Python SudokuSolver with Digit Recognition 
 
-Application that solves sudoku using python programming language and opencv library.The using backtracking algorithm for sudoku solution.
+Application that solves sudoku using python and opencv. Backtracking algorithm used when solving the recognized sudoku images.
 
-## Demo Youtube Link
+## Demo: Youtube Video
 
-[demo](https://www.youtube.com/watch?v=vAqjE539V70&feature=youtu.be)
-
+[Youtube Link](https://www.youtube.com/watch?v=vAqjE539V70&feature=youtu.be)
 
 ## How to run sudoku solver
-Clone the project and run the project->python main.py
-
+* Clone the project
+* Download required libraries using pip
+* Run main.py (python main.py)
 
 ## Required Libraries
 * opencv
-
 * numpy
-
 * tensorflow
 
 ## Dataset
 
 * Mnist
 
-## project contributors
+## Contributors
 [Fahri Yardımcı](https://github.com/ffahri)
 
 
-## Resource
+## Resources
+These resources helped us while we creating this project.
+
 [https://medium.com/@neshpatel](https://medium.com/@neshpatel "resource1")
