@@ -18,6 +18,8 @@ Clone the project and run the project->python main.py
 
 * tensorflow v1.12
 
+* keras v2.2.4
+
 ## Dataset
 
 * Mnist
