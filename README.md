@@ -12,11 +12,11 @@ Clone the project and run the project->python main.py
 
 
 ## Required Libraries
-* opencv
+* opencv v3.0
 
-* numpy
+* numpy v1.15.4
 
-* tensorflow
+* tensorflow v1.12
 
 ## Dataset
 
