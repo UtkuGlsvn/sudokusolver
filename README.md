@@ -12,9 +12,15 @@ Application that solves sudoku using python and opencv. Backtracking algorithm u
 * Run main.py (python main.py)
 
 ## Required Libraries
-* opencv
-* numpy
-* tensorflow
+
+* opencv v3.0
+
+* numpy v1.15.4
+
+* tensorflow v1.12
+
+* keras v2.2.4
+
 
 ## Dataset
 
