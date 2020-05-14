@@ -2,6 +2,17 @@
 
 Application that solves sudoku using python and opencv. Backtracking algorithm used when solving the recognized sudoku images.
 
+## HOW TO RUN
+python v3.6.9
+
+git clone https://github.com/UtkuGlsvn/sudokusolver.git
+
+cd sudokusolver
+
+python main.py
+
+For python 2.7 you can look ahead of version 3 commit message
+
 ## Demo: Youtube Video
 
 [Youtube Link](https://www.youtube.com/watch?v=vAqjE539V70&feature=youtu.be)
