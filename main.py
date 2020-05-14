@@ -36,7 +36,7 @@ def pre_process_image(img, skip_dilate=False):
 
 #Find image corners
 def findCorners(img):
-    h,contours, hierarchy = cv2.findContours(processed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(processed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     polygon = contours[0]
 
@@ -110,7 +110,7 @@ def getEveryDigits(img,squares):
         x2=squares[i][1][0]
         y1=squares[i][0][1]
         y2=squares[i][1][1]
-        window=img[x1:x2, y1:y2]
+        window=img[int(x1):int(x2), int(y1):int(y2)]
 
         digit = cv2.resize(window,(28,28))
         digit = clear_border(digit)
@@ -148,9 +148,9 @@ def checkGrid(grid):
 def solveGrid(grid):
 
   for i in range(0,81):
-    row=i/9
-    col=i%9
-    if grid[row][col]==0:
+    row=int(i/9)
+    col=int(i%9)
+    if grid[int(row)][int(col)]==0:
       for value in range (1,10):
         if not(value in grid[row]):
           if not value in (grid[0][col],grid[1][col],grid[2][col],grid[3][col],grid[4][col],grid[5][col],grid[6][col],grid[7][col],grid[8][col]):
@@ -202,12 +202,12 @@ def writeImg(solved,old,img,squares):
     x2=squares[i][1][0]
     y1=squares[i][0][1]
     y2=squares[i][1][1]
-    window=img[y1:y2,x1:x2]
-    if old[i/9][i%9]==0:
-        k=i/9
+    window=img[int(y1):int(y2),int(x1):int(x2)]
+    if old[i//9][i%9]==0:
+        k=i//9
         k=k+1
-        tp=(y1,(k*84))
-        cv2.putText(img,str(solved[i/9][i%9]),tp,font,fontScale,fontColor,lineType)
+        tp=(int(y1),int((k*84)))
+        cv2.putText(img,str(solved[i//9][i%9]),tp,font,fontScale,fontColor,lineType)
         show_image(np.array(img2),"RESULT")
   cv2.waitKey(0)
 
@@ -222,5 +222,4 @@ if __name__== "__main__":
 
   old= getEveryDigits(cropped,squares)
   solved = solveGrid(copy.deepcopy(old))
-
   writeImg(solved,old,cropped,squares)
