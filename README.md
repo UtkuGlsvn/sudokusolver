@@ -1,15 +1,17 @@
-# Python SudokuSolver with Digit Recognition 
+# Python Sudoku Solver With Digit Recognition 
 
 Application that solves sudoku using python and opencv. Backtracking algorithm used when solving the recognized sudoku images.
 
 ## HOW TO RUN
 python v3.6.9
 
-git clone https://github.com/UtkuGlsvn/sudokusolver.git
+* git clone https://github.com/UtkuGlsvn/sudokusolver.git
 
-cd sudokusolver
+* cd sudokusolver
 
-python main.py
+* pip install -r requirements.txt
+
+* python main.py
 
 For python 2.7 you can look ahead of version 3 commit message
 
@@ -24,13 +26,17 @@ For python 2.7 you can look ahead of version 3 commit message
 
 ## Required Libraries
 
-* opencv v3.0
+* opencv-python
 
-* numpy v1.15.4
+* numpy
 
-* tensorflow v1.12
+* tensorflow
 
-* keras v2.2.4
+* keras
+
+* pillow
+
+*sciket-image
 
 
 ## Dataset
