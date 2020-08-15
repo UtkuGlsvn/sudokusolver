@@ -10,6 +10,9 @@ import tensorflow as tf
 from skimage.segmentation import clear_border
 from keras.models import load_model
 
+ap = argparse.ArgumentParser()
+args = vars(ap.parse_args())
+
 #Show Image
 def show_image(img,title):
     cv2.namedWindow(title, cv2.WINDOW_NORMAL)
@@ -18,11 +21,6 @@ def show_image(img,title):
     cv2.waitKey(500)
     cv2.destroyAllWindows()
 
-ap = argparse.ArgumentParser()
-args = vars(ap.parse_args())
-
-img = cv2.imread('img/image4.jpg', cv2.IMREAD_GRAYSCALE)
-show_image(img,"Original Image")
 
 #Image filter processing
 def pre_process_image(img, skip_dilate=False):
@@ -48,7 +46,7 @@ def findCorners(img):
     return [polygon[top_left][0], polygon[top_right][0], polygon[bottom_right][0], polygon[bottom_left][0]]
 
 #Function used to specify point
-def display_points(in_img, points, radius=5, colour=(0, 0, 255)):
+def display_points(in_img, points, radius=25, colour=(0, 0, 255)):
     img = in_img.copy()
     if len(colour) == 3:
         if len(img.shape) == 2:
@@ -182,7 +180,6 @@ def solveGrid(grid):
                 print("Sudoku Result")
                 for i in range(0,9):
                       print(grid[i])
-                print("CHECK CONTROL ")
                 return grid
               else:
                   if solveGrid(grid):
@@ -213,6 +210,10 @@ def writeImg(solved,old,img,squares):
 
 
 if __name__== "__main__":
+  #input image
+  img = cv2.imread('img/image3.jpg', cv2.IMREAD_GRAYSCALE)
+  show_image(img,"Original Image")
+
   processed = pre_process_image(img)
   corners = findCorners(processed)
   display_points(processed, corners)
