@@ -36,7 +36,7 @@ For python 2.7 you can look ahead of version 3 commit message
 
 * pillow
 
-*sciket-image
+* sciket-image
 
 
 ## Dataset
