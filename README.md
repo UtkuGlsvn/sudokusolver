@@ -2,6 +2,8 @@
 
 Application that solves sudoku using python and opencv. Backtracking algorithm used when solving the recognized sudoku images.
 
+Turkish blog post: https://medium.com/@utkuglsvn/g%C3%B6r%C3%BCnt%C3%BC-i%CC%87%C5%9Fleme-tekni%CC%87kleri%CC%87yle-sudoku-%C3%A7%C3%B6z%C3%BCc%C3%BC-424478e63767
+
 ## HOW TO RUN
 python v3.6.9
 
